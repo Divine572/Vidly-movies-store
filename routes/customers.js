@@ -11,17 +11,19 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const customer = await Customer.findById(req.body.id);
+    const customer = await Customer.findById(req.params.id);
 
-    if (!customer) res.status(404).send('Invalid CustomerID');
+    if (!customer) return res.status(404).send('Invalid CustomerID');
 
     res.send(customer);
 });
 
 
+
+
 router.post('/', async (req, res) => {
     const {  error } = validate(req.body);
-    if (error) res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);
 
     let customer = new Customer({
         name: req.body.name,
@@ -36,11 +38,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const {  error } = validate(req.body);
-    if (error) res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);
 
     const customer = await Customer.findByIdAndUpdate(req.params.id,
         {
-            name: req.params.name, 
+            name: req.body.name, 
             phone: req.body.phone,
             isGold: req.body.isGold
     }, { new: true });
@@ -53,8 +55,8 @@ router.put('/:id', async (req, res) => {
 
 
 router.delete('/:id', async (req, res) => {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
-    if (!customer) res.status(404).send('Invalid CustomerID');
+    const customer = await Customer.findByIdAndRemove(req.params.id);
+    if (!customer) return res.status(404).send('Invalid CustomerID');
 
     res.send(customer);
 });
