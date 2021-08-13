@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const genres = require('./routes/genres');
-const express = require('express');
 const customers = require('./routes/customers');
 const movies = require('./routes/movies');
+const express = require('express');
+
 app = express();
 
 mongoose.connect('mongodb://localhost/vidly')  // { useNewUrlParser: true }
