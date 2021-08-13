@@ -43,27 +43,27 @@ router.post('/', async (req, res) => {
         }
     });
 
-    rental = await rental.save();
+    // rental = await rental.save();
 
-    movie.numberInStock--;
-    movie.save();
+    // movie.numberInStock--;
+    // movie.save();
 
-    res.send(rental)
+    // res.send(rental)
 
     // Implementing transactions with fawn
-    // try {
-    //     new Fawn.Task()
-    //         .save('rentals', rental)
-    //         .update('movies', { _id: movie._id }, {
-    //             $inc: { numberInStock: -1}
-    //         })
-    //         .run();
+    try {
+        new Fawn.Task()
+            .save('rentals', rental)
+            .update('movies', { _id: movie._id }, {
+                $inc: { numberInStock: -1}
+            })
+            .run();
 
-    //         res.send(rental);
-    // }
-    // catch(err) {
-    //     res.status(500).send('Something failed');
-    // }
+            res.send(rental);
+    }
+    catch(err) {
+        res.status(500).send('Something failed');
+    }
 
 });
 
