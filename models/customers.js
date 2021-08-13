@@ -24,7 +24,7 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
 
 
 
-function validateCustomer(customer, phone, isGold) {
+function validateCustomer(customer) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         phone: Joi.string().min(5).max(50).required(),
@@ -35,5 +35,5 @@ function validateCustomer(customer, phone, isGold) {
 }
 
 
-module.exports.Customer = Customer;
+exports.Customer = Customer;
 exports.validate = validateCustomer;
