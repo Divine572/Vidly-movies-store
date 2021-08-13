@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Movie, validate } = require('../models/movies');
-const { Genre } = require('../models/genres')
+const { Genre } = require('../models/genres');
+
 
 
 
@@ -10,11 +11,14 @@ router.get('/', async (req, res) => {
     res.send(movies);
 });
 
+
 router.get('/:id', async (req, res) => {
     const movie = await Movie.findById(req.params.id);
 
     if (!movie) return res.status(404).send('The movie with the given ID was not found.')
 });
+
+
 
 router.post('/', async (req, res) => {
     const { error } = validate(req.body);
@@ -36,6 +40,8 @@ router.post('/', async (req, res) => {
     movie = await movie.save()
     res.send(movie);
 });
+
+
 
 router.put('/:id', async (req, res) => {
     const { error } = validate(req.body);
@@ -59,6 +65,7 @@ router.put('/:id', async (req, res) => {
 
     res.send(movie);
 });
+
 
 router.delete('/:id', async (req, res) => {
     const movie = await Movie.findByIdAndRemove(req.params.id);
