@@ -23,7 +23,7 @@ function validateGenre(genre) {
         .required()
     });
     
-    return schema.validate({name: genre});
+    return schema.validate(genre);
 }
 
 exports.Genre = Genre;

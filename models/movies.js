@@ -44,7 +44,7 @@ function validate(movie) {
         dailyRentalRate: Joi.number().min(0).required()
     });
 
-    return schema.validate({ title: movie});
+    return schema.validate(movie);
 }
 
 

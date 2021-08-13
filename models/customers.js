@@ -31,7 +31,7 @@ function validateCustomer(customer) {
         isGold: Joi.boolean()
     });
 
-    return schema.validate({ name: customer })
+    return schema.validate(customer)
 }
 
 
