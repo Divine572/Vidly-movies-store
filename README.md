@@ -1,2 +1,10 @@
 # Vidly-movies-store
-Building the backend of a movies store using Nodejs + Express + MongoDB
+The backend of a movies store developed using Nodejs, Express and MongoDB
+
+# Features
+- All genres fetching
+- Single genres fetching
+- All movies fetching
+- Single movie fetching
+
+- Still adding more features
