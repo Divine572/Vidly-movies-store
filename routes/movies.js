@@ -6,6 +6,7 @@ const { Genre } = require('../models/genres');
 
 
 
+
 router.get('/', async (req, res) => {
     const movies = await Movie.find().sort('name');
     res.send(movies);

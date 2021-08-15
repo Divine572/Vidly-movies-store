@@ -48,7 +48,7 @@ router.put('/:id', async (req, res) => {
             isGold: req.body.isGold
     }, { new: true });
 
-    if (!customer) res.status(404).send('Invalid CustomerID');
+    if (!customer) return res.status(404).send('Invalid CustomerID');
 
     res.send(customer);
 
