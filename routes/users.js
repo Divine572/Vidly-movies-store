@@ -1,4 +1,4 @@
-const _ = require('lodash');
+// const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const { User, validate } = require('../models/users');
 const express = require('express');
@@ -14,26 +14,32 @@ router.post('/', async (req, res) => {
     if (user) return res.status(404).send('User already registered.');
 
     
-    user = new User(_.pick(req.body), ['name', 'password', 'email']);
+    // user = new User(_.pick(req.body), ['name', 'password', 'email']);
+    // const saltRounds = 10;
+    // const salt = await bcrypt.genSalt(saltRounds);
+    // user.password = await bcrypt.hash(user.password, salt);
+
+    // await user.save(); 
+
+    // res.send(_.pick(user, ['_id', 'name', 'email']));
+
+ 
+    user = new User({ 
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+    });
+
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
+
     await user.save();
-
-    res.send(_.pick(user, ['_id', 'name', 'email']));
-
-
-    // user = new User({ 
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     password: req.body.password
-    // });
-
-    // await user.save();
-    // res.send({
-    //     name: user.name,
-    //     email: user.email
-    // });
+    res.send({
+        id: user._id,
+        name: user.name,
+        email: user.email
+    });
 });
 
 module.exports = router;
