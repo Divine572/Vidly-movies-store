@@ -17,6 +17,7 @@ if (!config.get('jwtPrivateKey')) {
     process.exit(1);
 }
 
+
 mongoose.connect('mongodb://localhost/vidly')
     // { useNewUrlParser: true },
     // { useUnifiedTopology: true },
