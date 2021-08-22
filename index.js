@@ -1,3 +1,6 @@
+require('express-async-errors');
+const winston = require('winston');
+require('winston-mongodb');
 const error = require('./middleware/error');
 const config = require('config');
 const Joi = require('joi');
@@ -10,7 +13,31 @@ const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const express = require('express');
+
 app = express();
+
+// Handle uncaught exceptions in the node process
+// process.on('uncaughtException', (ex) => {
+//     winston.error(ex.message, ex);
+//     process.exit(1);
+// });
+
+winston.handleExceptions(
+        new winston.transports.File({ filename: 'uncaughtExceptions.log'}));
+
+// Handle promise rejection
+process.on('unhandledRejection', (ex) => {
+    throw ex;
+});
+
+
+
+// Log exceptions to a file and mongodb
+winston.add(winston.transports.File, { filename: 'logfile.log' });
+winston.add(winston.transports.MongoDB, { 
+    db: 'mongodb://localhost/vidly',
+    level: 'info'  // log level
+});
 
 if (!config.get('jwtPrivateKey')) {
     console.error('FATAL ERROR: jwtPrivateKey is not defined');
@@ -25,7 +52,7 @@ mongoose.connect('mongodb://localhost/vidly')
     .then(() => console.log('Connected to mongodb..'))
     .catch(err => console.error('Could not connect to mongodb server..'));
 
-// mongoose.set({ useUnifiedTopology: true });
+
 
 app.use(express.json());
 app.use('/api/genres', genres);
